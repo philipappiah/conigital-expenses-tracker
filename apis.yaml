@@ -170,10 +170,9 @@ paths:
         - name: reportName
           in: path
           required: true
-          description: Two reports are availabe and can be accessed by specifying the report name. You can get the available list of reports by using the get '/reports' endpoint.  For the purpose of this app, the schedule time has been set to every '1 hour' by default and it can be changed.
+          description: Two reports are availabe and can be accessed by specifying the report name. You can get the available list of reports by using the get '/reports' endpoint. Example http://localhost:4000/api/v1/reports/categories-1657392121227.csv
           schema:
             type: string
-            example: "items-1657384321761.csv"
       responses:
         '200':
           description: Report in csv format
