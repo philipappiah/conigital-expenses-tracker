@@ -17,7 +17,7 @@ npm start
 
 Your app should now be running on [localhost:4000](http://localhost:4000/).
 
-You can view the opn api docs http://localhost:4000/api-docs
+You can view the api docs via this endpoint http://localhost:4000/api-docs
 
 
 ## Running with Docker
