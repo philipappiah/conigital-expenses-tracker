@@ -73,7 +73,7 @@ export class CSV {
 
 
     // name of file when downloaded
-    const filename = `src/reports/report1-${(new Date().getMonth() + 1)}.csv`
+    const filename = `src/reports/items-${Date.now()}.csv`
     const writableStream = fs.createWriteStream(filename);
     // stream response through pipes with CSV transformation
     documents.cursor().pipe(csv.transform(transformData)).pipe(csv.stringify({header: true})).pipe(writableStream)
@@ -118,7 +118,7 @@ export class CSV {
 
   
     // name of file when downloaded
-    const filename = `src/reports/report2-${(new Date().getMonth() + 1)}.csv`
+    const filename = `src/reports/categories-${Date.now()}.csv`
     const writableStream = fs.createWriteStream(filename);
     // stream response through pipes with CSV transformation
     documents.cursor().pipe(csv.stringify({header:true})).pipe(writableStream)

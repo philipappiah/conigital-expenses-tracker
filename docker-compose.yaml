@@ -4,10 +4,11 @@ services:
            container_name: expense-tracker
            image: latest/expense-tracker
            environment: 
-              NODE_ENV: ${NODE_ENV}
-              BASE_URL: ${BASE_URL}
-              PORT: ${PORT}
-              MONGO_URL: ${MONGO_URL}
+              NODE_ENV: development
+              BASE_URL: http://localhost
+              PORT: 4000
+              MONGO_URL: mongodb://mongo:27017/mydb
+              API_VERSION: v1
 
            restart: always
            build: .
@@ -21,4 +22,4 @@ services:
              volumes:
                - ./data:/data/db
              ports:
-               - '27018:27017'
+               - '27017:27017'

@@ -10,7 +10,7 @@ export const swaggerDocs = {
      
       info: {
         title: "Conigital Open Api",
-        version: "3.0",
+        version: "v1",
         
         description:
           "API endpoints for Conigital Expenses Calculator",
@@ -22,7 +22,7 @@ export const swaggerDocs = {
       },
       servers: [
         {
-          url: `${BASE_URL}:${PORT}`,
+          url: `${BASE_URL}:${PORT}/api/v1`,
         },
       ],
       

@@ -1,23 +1,23 @@
 
 import { Request, Response, NextFunction } from 'express'
-import { ExpenseModel } from '../models/expenses.model'
+import { ExpenseModel } from '../models/expense.model'
 import { CatchExpressError } from '../utils/errorHandlers';
-import { ResponseHandlers } from '../utils/responseHandlers';
+import { ResponseHandlers } from '../utils/responseHandler';
 const fs = require('fs')
 const path = require('path');
 
 class ExpenseController {
- 
+
     createExpense = CatchExpressError(async (req: Request, res: Response, next: NextFunction) => {
-        
-       
-        
-       // this.validateFields(req, res)
+
+
+
+        // this.validateFields(req, res)
         const document = await ExpenseModel.create(req.body)
 
         res.status(201).send({
-            message:'Expense successfully created',
-            data:document
+            message: 'Expense successfully created!',
+            data: document
         })
 
 
@@ -41,17 +41,17 @@ class ExpenseController {
     getExpense = CatchExpressError(async (req: Request, res: Response, next: NextFunction) => {
 
         const document = await ExpenseModel.findById(req.params.id)
-        
+
         if (!document) {
             return (res.status(404).send({
                 status: 'fail',
-                message: `No document found with id: ${req.params.id}`
-    
+                message: `No document found with id: ${req.params.id}!`
+
             }))
-           
+
         }
 
-        res.status(200).send({data:document})
+        res.status(200).send({ data: document })
 
     })
 
@@ -62,17 +62,20 @@ class ExpenseController {
             new: true,
             runValidators: true
         });
-        
+
         if (!document) {
             return (res.status(404).send({
                 status: 'fail',
-                message: `No document found with id: ${req.params.id}`
-    
+                message: `No document found with id: ${req.params.id}!`
+
             }))
-           
+
         }
 
-        res.status(204).send(document)
+        res.status(200).send({
+            message: 'Expense updated successfully!',
+            data:document
+        })
 
     })
 
@@ -84,36 +87,19 @@ class ExpenseController {
         if (!document) {
             return (res.status(404).send({
                 status: 'fail',
-                message: `No document found with id: ${req.params.id}`
-    
+                message: `No document found with id: ${req.params.id}!`
+
             }))
-           
+
         }
 
-        res.status(204).send({})
+        res.status(200).send({
+            message: 'Expense successfully deleted!'
+        })
 
     })
 
 
-    getReport = CatchExpressError(async (req: Request, res: Response, next: NextFunction) => {
-        const filename = `src/reports/${req.params.reportName}.csv`
-       
-            if (fs.existsSync(filename)) {
-                res.sendFile(path.join(process.cwd(), `src/reports/${req.params.reportName}.csv`));
-            }else{
-                return (res.status(404).send({
-                    status: 'fail',
-                    message: `No report found with name: ${req.params.reportName}.csv`
-        
-                }))
-            }
-         
-
-    })
-
-
-
-   
 
 
 }

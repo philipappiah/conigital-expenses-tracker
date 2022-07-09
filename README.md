@@ -17,16 +17,10 @@ npm start
 
 Your app should now be running on [localhost:4000](http://localhost:4000/).
 
+You can view the opn api docs http://localhost:4000/api-docs
+
 
 ## Running with Docker
-Make sure you have [Docker](https://www.docker.com/) installed.
-
-```sh
-docker -t expenses-tracker .
-docker run -dp 4000:4000 expenses-tracker
-```
-
-## Running with Docker-Compose
 Make sure you have [Docker](https://www.docker.com/) and [Docker-Compose](https://docs.docker.com/compose/) installed.
 
 ```sh
