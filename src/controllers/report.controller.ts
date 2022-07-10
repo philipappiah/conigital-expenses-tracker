@@ -9,7 +9,6 @@ const path = require('path');
 
 class ReportController {
 
-    reportsConfigFile = "src/config/reportsConfig.json"
 
     checkFileExist = (filePath:string, res:Response) => {
 
