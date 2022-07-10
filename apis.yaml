@@ -140,7 +140,7 @@ paths:
         - reports
       responses:
         '200':
-          description: An array of report names
+          description: An array of report names. Report generation schedules are set to 1 hour by default. It can be changed using post endpoint on `/schedule`
         '404':
           description: 'Reports list directory not found'
         
@@ -156,7 +156,7 @@ paths:
         - name: reportName
           in: path
           required: true
-          description: Two reports are availabe and can be accessed by specifying the report name. You can get the available list of reports by using the get '/reports' endpoint. Example http://localhost:4000/api/v1/reports/categories-1657392121227.csv
+          description: Two reports are availabe and can be accessed by specifying the report name. You can get the available list of reports by using the get '/reports' endpoint. Example http://localhost:4000/api/v1/reports/categories-1657392121227.csv 
           schema:
             type: string
       responses:
