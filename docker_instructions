@@ -1,0 +1,10 @@
+# Make sure you have docker and docker-compose installed
+
+# Restart the Docker daemon.
+$ sudo service docker restart
+
+sudo docker-compose build
+sudo docker-compose up
+
+
+

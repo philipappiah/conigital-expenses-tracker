@@ -29,7 +29,7 @@ docker-compose build
 docker-compose up
 ```
 
-#### Testing
+## Testing
 ```bash
 npm run test
 ```
