@@ -23,7 +23,7 @@ You can view the api docs via the endpoint http://localhost:4000/api-docs
 
 ## Running with Docker
 Make sure you have [Docker](https://www.docker.com/) and [Docker-Compose](https://docs.docker.com/compose/) installed.
-This app was built using Docker version 20.10.10, build b485636
+Docker version 20.10.10 or higher
 
 ```bash
 docker-compose build
