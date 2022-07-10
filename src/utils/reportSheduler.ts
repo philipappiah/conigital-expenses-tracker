@@ -27,7 +27,7 @@ export const scheduleReporting = () =>{
         try {
             await ExpenseModel.deleteMany();
        
-            console.log('Data successfully deleted!');
+            console.log('Database cleared after report generation');
         } catch (err) {
          console.log(err);
          }

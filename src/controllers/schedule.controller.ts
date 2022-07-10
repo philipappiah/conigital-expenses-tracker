@@ -35,7 +35,14 @@ class ScheduleController {
         
         let content = JSON.parse(fs.readFileSync(filename, 'utf8'));
 
+         
+        if (typeof(schedule) !== 'string'){
+            return (res.status(422).send({
+                status: 'fail',
+                message: 'Please provide an appropriate schedule: Available schedules are ` Minute, Hour, Day, Week, Month `'
 
+            }))
+        }
         if (!content.schedulesEnum.includes(schedule.toUpperCase())) {
             return (res.status(422).send({
                 status: 'fail',
@@ -44,7 +51,7 @@ class ScheduleController {
             }))
 
         }
-        
+
         content.selectedSchedule = content.schedulesObject[schedule.toUpperCase()]
 
         //write file

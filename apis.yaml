@@ -33,7 +33,7 @@ paths:
                     example: 20
       responses:
         '201':
-          description: Expense successfully created!
+          description: Expense created
         '422': 
           description: Validation error
        
@@ -82,8 +82,10 @@ paths:
                 $ref: "#/components/schemas/Expense"
         '404':
           description: No document found!
+        '422': 
+          description: cast error
         
-
+  
     patch:
       summary: Update a specific expense
       operationId: updateExpenseById
@@ -104,13 +106,15 @@ paths:
        
       responses:
         '200':
-          description: Expense successfully updated!
+          description: Expense updated
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Expense"
         '404':
           description: No document found!
+        '422': 
+          description: cast error
         
     
       
@@ -128,9 +132,12 @@ paths:
             type: string
       responses:
         '204':
-          description: Expense successfully deleted!
+          description: Expense deleted
         '404':
-          description: No document found!
+          description: No document found
+        '422': 
+          description: cast error
+
         
   /reports:
     get:
@@ -141,7 +148,7 @@ paths:
       responses:
         '200':
           description: An array of report names. Report generation schedules are set to 1 hour by default. It can be changed using post endpoint on `/schedule`
-
+       
         
         
 
@@ -172,8 +179,8 @@ paths:
   /schedule:
 
     post:
-      summary: Create a report schedule
-      operationId: createReportSchedule
+      summary: Create a schedule
+      operationId: createSchedule
       tags:
         - schedule
       requestBody:
@@ -190,15 +197,15 @@ paths:
                     example: Minute
       responses:
         '201':
-          description: 'Schedule succesfully created!'
+          description: Schedule succesfully created
         '404': 
-          description: 'Schedule configuration not found'
+          description: Schedule configuration not found
         '422':
-          description: 'Validation Error'
+          description: Validation Error
         
 
     get:
-      summary: Get Last scheduled report generation time
+      summary: Get Last scheduled time
       operationId: getSchedule
       tags:
         - schedule
@@ -241,7 +248,5 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Expense"
-
-    
 
    

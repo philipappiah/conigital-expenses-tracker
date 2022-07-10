@@ -1,4 +1,6 @@
 
+import chai = require('chai');
+import chaiHttp = require('chai-http');
 import Database from '../config/db'
 import { ExpenseModel } from '../models/expense.model'
 require('dotenv').config();
@@ -9,17 +11,17 @@ const SERVER_URL = `${BASE_URL}:${PORT}/api/v1`
 
 const MONGO_URL = process.env.MONGO_URL || `mongodb://localhost:27017/mydb`
 
-let chai = require('chai');
-let chaiHttp = require('chai-http');
-let app = require('../app');
+
 let should = chai.should();
 
 
 chai.use(chaiHttp);
 
-describe('Expenses', () => {
-  new Database(MONGO_URL).connectDataBase()
+new Database(MONGO_URL).connectDataBase()
 
+
+describe('Expenses', () => {
+  
   
   beforeEach((done) => {
     ExpenseModel.deleteMany({}, (err) => {
@@ -131,7 +133,7 @@ describe('Expenses', () => {
 
 
 
-// /PATCH expenses/:id 
+// /PATCH expenses/:id update expense
   describe('/PATCH/:id expense', () => {
     it('it should UPDATE an expense with the given id', (done) => {
       let model = new ExpenseModel({
@@ -178,106 +180,6 @@ describe('Expenses', () => {
 
 
 
-
-  
-  // /test POST /schedule with validation errors
-  describe('POST /schedule', () => {
-    it('it should not POST a schedule without the accepted time schedules', (done) => {
-     
-      // Accepted time schedules are  Minute, Hour, Day, Week, Month
-      chai.request(SERVER_URL)
-        .post('/schedule')
-        .send({schedule:"minut"})
-        .end((err: any, res: any) => {
-          res.should.have.status(422);
-          res.body.should.be.a('object');
-          res.body.should.have.property('status').eql('fail');
-         
-          done();
-        });
-    });
-
-  });
-
-
-    // /test POST /schedule without validation errors. Schedule report generation
-   describe('POST /schedule', () => {
-    it('it should POST a report schedule', (done) => {
-     
-      // Accepted time schedules are  Minute, Hour, Day, Week, Month
-      chai.request(SERVER_URL)
-        .post('/schedule')
-        .send({schedule:"MONTH"})
-        .end((err: any, res: any) => {
-          res.should.have.status(201);
-          res.body.should.be.a('object');
-          res.body.should.have.property('status').eql('success');
-         
-          done();
-        });
-    });
-
-  });
-
-
-  // test GET /schedule get last scheduled time for report generation
-  describe('/GET /schedule', () => {
-    it('it should GET last report schedule', (done) => {
-      chai.request(SERVER_URL)
-        .get('/schedule')
-        .end((err: any, res: any) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.should.have.property('schedule').eql('MONTH');
-          done();
-        });
-    });
-  });
-
-// GET /reports list all reports generated
-  describe('/GET reports', () => {
-    it('it should GET list of reports', (done) => {
-      chai.request(SERVER_URL)
-        .get('/reports')
-        .end((err: any, res: any) => {
-          res.should.have.status(200);
-          res.body.should.be.a('array');
-          
-          done();
-        });
-    });
-  });
-
-
-
-  // test view report  by id
- // GET /reports/:id
-  describe('GET:/name /reports', () => {
-   
-    it('it should GET first report' ,(done) => {
-  
-        chai.request(SERVER_URL)
-        .get('/reports')
-        .end((err: any, res: any) => {
-          res.body.should.be.a('array');
-          
-          if(res.body.length){
-            let reportname = res.body[0]
-            chai.request(SERVER_URL)
-            .get(`/reports/${reportname}`)
-            .end((err:any, res:any) => { 
-                res.should.have.status(200); 
-                res.headers['content-type'].should.have.string('text/csv');
-                done();
-            });
-          }else{
-            done();
-          }
-
-        })
-       
-    });
-});
 
 });
 

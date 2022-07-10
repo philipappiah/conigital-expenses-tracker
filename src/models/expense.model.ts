@@ -1,7 +1,6 @@
 import { Document, Schema, model } from 'mongoose';
 
 
-
 export interface Expense extends Document {
     id:string;
     category:String;
@@ -25,8 +24,16 @@ const ExpenseSchema = new Schema<Expense>({
   },
   cost: {
     type: Number,
-    default:0,
-    min: [0, 'Cost cannot be less than 0']
+    required:[true,"missing required field cost"],
+    validate: {
+      validator: function(val:Number) {
+        
+        return val > 0;
+      },
+      message: 'Cost must be greater than 0'
+    }
+    
+   
   },
   time:{
     type: Date,
