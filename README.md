@@ -10,20 +10,26 @@ A Node.js server to keep track of expenses using [Express 4](http://expressjs.co
 
 Make sure you have [Node.js](http://nodejs.org/) installed.
 
-```sh
+```bash
 npm install
 npm start
 ```
 
 Your app should now be running on [localhost:4000](http://localhost:4000/).
 
-You can view the api docs via this endpoint http://localhost:4000/api-docs
+You can view the api docs via the endpoint http://localhost:4000/api-docs
+
 
 
 ## Running with Docker
 Make sure you have [Docker](https://www.docker.com/) and [Docker-Compose](https://docs.docker.com/compose/) installed.
 
-```sh
+```bash
 docker-compose build
 docker-compose up
+```
+
+#### Testing
+```bash
+npm run test
 ```

@@ -3,7 +3,7 @@ import e, {Request, Response, NextFunction} from 'express'
 export const CatchExpressError = (callFunc:any) => {
     return (req:Request, res:Response, next:NextFunction) => {
         callFunc(req, res, next).catch((err:any)=>{
-            res.json(err)
+            res.status(422).json(err)
         });
     };
   };

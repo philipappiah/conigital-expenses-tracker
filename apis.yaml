@@ -31,11 +31,11 @@ paths:
                   cost:
                     type: number
                     example: 20
-          
-          
       responses:
         '201':
-          description: Expense successfully created
+          description: Expense successfully created!
+        '422': 
+          description: Validation error
        
     get:
       summary: List all expenses
@@ -80,6 +80,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Expense"
+        '404':
+          description: No document found!
         
 
     patch:
@@ -102,11 +104,13 @@ paths:
        
       responses:
         '200':
-          description: Updated resource object
+          description: Expense successfully updated!
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Expense"
+        '404':
+          description: No document found!
         
     
       
@@ -123,32 +127,11 @@ paths:
           schema:
             type: string
       responses:
-        '200':
-          description: Expense deleted
-
-  /reports/createSchedule:
-
-    post:
-      summary: Create a report schedule
-      operationId: createReportSchedule
-      tags:
-        - reports
-      requestBody:
-          required: true
-          description: The scheduled time to generate reports. Available schedules are ` Minute, Hour, Day, Week, Month `. This will generate the reports every time as scheduled. Please note; The database will be wiped clean after the reports are generated
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  schedule:
-                    type: string
-                    description: Time schedule to generate reports; Available schedules are ` Minute, Hour, Day, Week, Month `.
-                    example: Minute
-      responses:
-        '201':
-          description: 'Report schedule succefully created'
-                  
+        '204':
+          description: Expense successfully deleted!
+        '404':
+          description: No document found!
+        
   /reports:
     get:
       summary: List all reports
@@ -158,6 +141,9 @@ paths:
       responses:
         '200':
           description: An array of report names
+        '404':
+          description: 'Reports list directory not found'
+        
         
 
   /reports/{reportName}:
@@ -176,9 +162,55 @@ paths:
       responses:
         '200':
           description: Report in csv format
+        '404':
+          description: 'No file found'
 
           
 
+     
+
+
+  /schedule:
+
+    post:
+      summary: Create a report schedule
+      operationId: createReportSchedule
+      tags:
+        - schedule
+      requestBody:
+          required: true
+          description: The scheduled time to generate reports. Available schedules are ` Minute, Hour, Day, Week, Month `. This will generate the reports every time as scheduled. Please note; The database will be wiped clean after the reports are generated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  schedule:
+                    type: string
+                    description: Time schedule to generate reports; Available schedules are ` Minute, Hour, Day, Week, Month `.
+                    example: Minute
+      responses:
+        '201':
+          description: 'Schedule succesfully created!'
+        '404': 
+          description: 'Schedule configuration not found'
+        '422':
+          description: 'Validation Error'
+        
+
+    get:
+      summary: Get Last scheduled report generation time
+      operationId: getSchedule
+      tags:
+        - schedule
+      responses:
+        '200':
+          description: An object of last scheduled time for generating reports
+        '404': 
+          description: 'Schedule configuration not found'
+    
+                  
+  
   
 
 components:

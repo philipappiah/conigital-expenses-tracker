@@ -9,9 +9,6 @@ const SERVER_URL = `${BASE_URL}:${PORT}/api/v1`
 
 const MONGO_URL = process.env.MONGO_URL || `mongodb://localhost:27017/mydb`
 
-
-new Database(MONGO_URL).connectDataBase()
-
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 let app = require('../app');
@@ -57,7 +54,7 @@ describe('Expenses', () => {
         .post('/expenses')
         .send(expense)
         .end((err: any, res: any) => {
-          res.should.have.status(200);
+          res.should.have.status(422);
           res.body.should.be.a('object');
           res.body.should.have.property('errors');
           res.body.errors.should.have.property('title');
@@ -83,12 +80,11 @@ describe('Expenses', () => {
         .end((err: any, res: any) => {
           res.should.have.status(201);
           res.body.should.be.a('object');
-          res.body.should.have.property('message').eql('Expense successfully created!');
-          res.body.data.should.have.property('id');
-          res.body.data.should.have.property('category');
-          res.body.data.should.have.property('title');
-          res.body.data.should.have.property('cost');
-          res.body.data.should.have.property('time');
+          res.body.should.have.property('id');
+          res.body.should.have.property('category');
+          res.body.should.have.property('title');
+          res.body.should.have.property('cost');
+          res.body.should.have.property('time');
 
           done();
         });
@@ -106,7 +102,7 @@ describe('Expenses', () => {
 
   // /GET expenses/:id route
   describe('/GET/:id expense', () => {
-    it('it should GET an expense by the given id', (done) => {
+    it('it should GET an expense with the given id', (done) => {
 
       let model = new ExpenseModel({
         category: "Transport",
@@ -120,12 +116,12 @@ describe('Expenses', () => {
           .end((err: any, res: any) => {
             res.should.have.status(200);
             res.body.should.be.a('object');
-            res.body.data.should.have.property('id');
-            res.body.data.should.have.property('category');
-            res.body.data.should.have.property('title');
-            res.body.data.should.have.property('cost');
-            res.body.data.should.have.property('time');
-            res.body.data.should.have.property('id').eql(expense.id);
+            res.body.should.have.property('id');
+            res.body.should.have.property('category');
+            res.body.should.have.property('title');
+            res.body.should.have.property('cost');
+            res.body.should.have.property('time');
+            res.body.should.have.property('id').eql(expense.id);
             done();
           });
       });
@@ -136,7 +132,7 @@ describe('Expenses', () => {
 
 
 // /PATCH expenses/:id 
-  describe('/PATCH/:id book', () => {
+  describe('/PATCH/:id expense', () => {
     it('it should UPDATE an expense with the given id', (done) => {
       let model = new ExpenseModel({
         category: "Entertainment",
@@ -150,8 +146,7 @@ describe('Expenses', () => {
               .end((err:any, res:any) => {
                     res.should.have.status(200);
                     res.body.should.be.a('object');
-                    res.body.should.have.property('message').eql('Expense updated successfully!');
-                    res.body.data.should.have.property('title').eql("PS5 Game");
+                    res.body.should.have.property('title').eql("PS5 Game");
                 done();
               });
         });
@@ -161,7 +156,7 @@ describe('Expenses', () => {
 
    // /DELETE expenses/:id route
    describe('/DELETE/:id expense', () => {
-    it('it should DELETE an expense by the given id', (done) => {
+    it('it should DELETE an expense with the given id', (done) => {
 
       let model = new ExpenseModel({
         category: "Transport",
@@ -172,9 +167,7 @@ describe('Expenses', () => {
         chai.request(SERVER_URL)
           .delete('/expenses/' + expense.id)
           .end((err: any, res: any) => {
-            res.should.have.status(200)
-            res.body.should.be.a('object');
-            res.body.should.have.property('message').eql('Expense successfully deleted!');
+            res.should.have.status(204)
             done();
           });
       });
@@ -183,17 +176,20 @@ describe('Expenses', () => {
   })
 
 
+
+
+
   
-  // /test POST /reports/createSchedule with validation errors
-  describe('POST /reports', () => {
+  // /test POST /schedule with validation errors
+  describe('POST /schedule', () => {
     it('it should not POST a schedule without the accepted time schedules', (done) => {
      
       // Accepted time schedules are  Minute, Hour, Day, Week, Month
       chai.request(SERVER_URL)
-        .post('/reports/createSchedule')
+        .post('/schedule')
         .send({schedule:"minut"})
         .end((err: any, res: any) => {
-          res.should.have.status(404);
+          res.should.have.status(422);
           res.body.should.be.a('object');
           res.body.should.have.property('status').eql('fail');
          
@@ -204,14 +200,14 @@ describe('Expenses', () => {
   });
 
 
-    // /test POST /reports/createSchedule without validation errors. Schedule report generation
-   describe('POST /reports', () => {
-    it('it should POST a schedule', (done) => {
+    // /test POST /schedule without validation errors. Schedule report generation
+   describe('POST /schedule', () => {
+    it('it should POST a report schedule', (done) => {
      
       // Accepted time schedules are  Minute, Hour, Day, Week, Month
       chai.request(SERVER_URL)
-        .post('/reports/createSchedule')
-        .send({schedule:"minute"})
+        .post('/schedule')
+        .send({schedule:"MONTH"})
         .end((err: any, res: any) => {
           res.should.have.status(201);
           res.body.should.be.a('object');
@@ -223,8 +219,23 @@ describe('Expenses', () => {
 
   });
 
+
+  // test GET /schedule get last scheduled time for report generation
+  describe('/GET /schedule', () => {
+    it('it should GET last report schedule', (done) => {
+      chai.request(SERVER_URL)
+        .get('/schedule')
+        .end((err: any, res: any) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('schedule').eql('MONTH');
+          done();
+        });
+    });
+  });
+
 // GET /reports list all reports generated
-  describe('/GET /reports', () => {
+  describe('/GET reports', () => {
     it('it should GET list of reports', (done) => {
       chai.request(SERVER_URL)
         .get('/reports')
@@ -241,7 +252,7 @@ describe('Expenses', () => {
 
   // test view report  by id
  // GET /reports/:id
-  describe('GET /reports/:name', () => {
+  describe('GET:/name /reports', () => {
    
     it('it should GET first report' ,(done) => {
   
