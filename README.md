@@ -27,10 +27,11 @@ Make sure you have [Docker](https://www.docker.com/) and [Docker-Compose](https:
 ```bash
 docker-compose build
 docker-compose up
+```
+
 Your app should now be running on [localhost:4000](http://localhost:4000/).
 
 You can view the api docs via the endpoint http://localhost:4000/api-docs
-```
 
 ## Testing
 ```bash
