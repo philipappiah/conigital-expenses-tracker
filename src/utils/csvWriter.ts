@@ -2,13 +2,19 @@
 
 const fs = require("fs");
 const csv = require('csv')
+const path = require('path')
 
 
 export class CSV {
 
   model: any
+  reportsPath = path.join(process.cwd(), `src/reports`)
   constructor(model: any) {
     this.model = model
+      if (!fs.existsSync(this.reportsPath)){
+            fs.mkdirSync(this.reportsPath) // create reports dir if it does not exist
+      }
+    
   }
 
 
@@ -115,7 +121,7 @@ export class CSV {
 
       ]
     )
-
+   
   
     // name of file when downloaded
     const filename = `src/reports/categories-${Date.now()}.csv`

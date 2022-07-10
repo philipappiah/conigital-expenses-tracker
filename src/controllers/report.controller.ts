@@ -10,40 +10,35 @@ const path = require('path');
 class ReportController {
 
 
-    checkFileExist = (filePath:string, res:Response) => {
 
-        if (!fs.existsSync(filePath)) {
-            return res.status(404).end();
+    reportsPath = path.join(process.cwd(), `src/reports`)
+
+    constructor() {
+        if (!fs.existsSync(this.reportsPath)) {
+            fs.mkdirSync(this.reportsPath) // create reports dir if it does not exist
         }
-
     }
 
-  
+
 
     getReportsList = CatchExpressError(async (req: Request, res: Response, next: NextFunction) => {
 
-
-        const reportsPath = path.join(process.cwd(), `src/reports`)
-       
-        this.checkFileExist(reportsPath, res);
-
-        if (fs.statSync(reportsPath).isDirectory()) {
-            const reportsInDir = fs.readdirSync(reportsPath);
+        if (fs.statSync(this.reportsPath).isDirectory()) {
+            const reportsInDir = fs.readdirSync(this.reportsPath);
             //send the list of files in the reports directory
             return res.status(200).send(reportsInDir);
         }
-
-
-
 
     })
 
 
     getReport = CatchExpressError(async (req: Request, res: Response, next: NextFunction) => {
-        const filename = `src/reports/${req.params.reportName}`
+
+
+        const filename = `${this.reportsPath}/${req.params.reportName}`
 
         if (fs.existsSync(filename)) {
-            res.sendFile(path.join(process.cwd(), `src/reports/${req.params.reportName}`));
+            res.sendFile(filename);
         } else {
             return (res.status(404).send({
                 status: 'fail',

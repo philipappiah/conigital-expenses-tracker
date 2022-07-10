@@ -141,8 +141,7 @@ paths:
       responses:
         '200':
           description: An array of report names. Report generation schedules are set to 1 hour by default. It can be changed using post endpoint on `/schedule`
-        '404':
-          description: 'Reports list directory not found'
+
         
         
 
@@ -242,5 +241,7 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/Expense"
+
+    
 
    
