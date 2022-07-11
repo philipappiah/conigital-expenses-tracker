@@ -10,7 +10,6 @@ const path = require('path');
 class ReportController {
 
 
-
     reportsPath = path.join(process.cwd(), `src/reports`)
 
     constructor() {
@@ -33,7 +32,6 @@ class ReportController {
 
 
     getReport = CatchExpressError(async (req: Request, res: Response, next: NextFunction) => {
-
 
         const filename = `${this.reportsPath}/${req.params.reportName}`
 

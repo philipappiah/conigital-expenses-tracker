@@ -67,8 +67,8 @@ class ExpenseController {
 
     })
 
-    deleteExpense = CatchExpressError(async (req: Request, res: Response, next: NextFunction) => {
 
+    deleteExpense = CatchExpressError(async (req: Request, res: Response, next: NextFunction) => {
 
         const document = await ExpenseModel.findByIdAndDelete(req.params.id)
 
